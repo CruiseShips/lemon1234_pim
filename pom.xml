@@ -103,11 +103,11 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		<!-- hutool-all -->
+		<!-- commons.codec RSA 加密解密 -->
 		<dependency>
-		    <groupId>cn.hutool</groupId>
-		    <artifactId>hutool-all</artifactId>
-		    <version>5.5.7</version>
+		    <groupId>org.apache.directory.studio</groupId>
+		    <artifactId>org.apache.commons.codec</artifactId>
+		    <version>1.8</version>
 		</dependency>
 		
 		<!-- test -->
