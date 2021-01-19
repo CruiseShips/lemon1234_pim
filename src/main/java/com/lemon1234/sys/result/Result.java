@@ -20,7 +20,7 @@ public class Result extends HashMap<String, Object> {
 	
 	public Result() {}
 	
-	public Result(String code, String msg, Object data) {
+	public Result(Integer code, String msg, Object data) {
 		super.put(CODE, code);
         super.put(MSG, msg);
         if (data != null) {
@@ -35,7 +35,7 @@ public class Result extends HashMap<String, Object> {
 	 * @param data
 	 * @return
 	 */
-	public static Result success(String code, String msg, Object data) {
+	public static Result success(Integer code, String msg, Object data) {
         return new Result(code, msg, data);
     }
 	
@@ -58,11 +58,11 @@ public class Result extends HashMap<String, Object> {
 	 * @param data
 	 * @return
 	 */
-	public static Result error(String code, String msg, Object data) {
+	public static Result error(Integer code, String msg, Object data) {
 		return new Result(code, msg, data);
 	}
 	
-	public static Result error(String code, String msg) {
+	public static Result error(Integer code, String msg) {
         return Result.error(code, msg, null);
     }
 	

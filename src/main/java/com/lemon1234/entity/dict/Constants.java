@@ -20,10 +20,6 @@ public class Constants {
         public String getDictValue() {
             return dictValue;
         }
-
-        public static String getDictFlag(){
-            return KEY_TYPE.class.getSimpleName();
-        }
     }
 	
 	
@@ -31,21 +27,39 @@ public class Constants {
 	 * 系统返回状态
 	 */
 	public static enum REQUESTCODE {
-		HTTP_200("SYS_REQUEST_200"),
-		HTTP_500("SYS_REQUEST_200");
+		HTTP_200(200),
+		HTTP_500(500);
 		
-		String dictValue;
+		Integer dictValue;
         
-		REQUESTCODE(String dictValue){
+		REQUESTCODE(Integer dictValue){
             this.dictValue = dictValue;
         }
 
-        public String getDictValue() {
+        public Integer getDictValue() {
             return dictValue;
         }
+	}
+	
+	/**
+	 * jwt token 状态返回
+	 */
+	public static enum JWT_TOKEN_ERROR {
+		// Token不存在
+		JWT_ERRCODE_NULL(4000),
+		// Token过期
+		JWT_ERRCODE_EXPIRE(4001),
+		// 验证不通过
+		JWT_ERRCODE_FAIL(4002);
+		
+		Integer dictValue;
+        
+		JWT_TOKEN_ERROR(Integer dictValue){
+            this.dictValue = dictValue;
+        }
 
-        public static String getDictFlag(){
-            return KEY_TYPE.class.getSimpleName();
+        public Integer getDictValue() {
+            return dictValue;
         }
 	}
 }

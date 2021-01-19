@@ -27,6 +27,12 @@ spring:
         max-idle: 20
         min-idle: 0
     timeout: 3000
+  aop:
+    proxy-target-class: true
+
+logging:
+    level:
+      com.lemon1234.mapper: TRACE
       
 # Mybatis-plus相关配置
 mybatis-plus:
@@ -34,3 +40,4 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   configuration: 
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    
