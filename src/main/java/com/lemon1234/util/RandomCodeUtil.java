@@ -35,9 +35,9 @@ public class RandomCodeUtil {
 		String a = RandomCodeUtil.randomCode(8);
 		System.out.println(a);
 		Map<String, String> key = RSAUtil.getKey();
-		String megmi = RSAUtil.encryption(a, key.get(Constants.KEY_TYPE.PUBLICKEY.getDictValue()));
+		String megmi = RSAUtil.encryption(a, key.get(Constants.RSA_PUBLIC_KEY));
 		System.out.println(megmi);
-		System.out.println(RSAUtil.decrypt(megmi, key.get(Constants.KEY_TYPE.PRIVATEKEY.getDictValue())));
+		System.out.println(RSAUtil.decrypt(megmi, key.get(Constants.RSA_PRIVATE_KEY)));
 	}
 	
 }

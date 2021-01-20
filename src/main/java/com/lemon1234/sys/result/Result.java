@@ -40,15 +40,15 @@ public class Result extends HashMap<String, Object> {
     }
 	
 	public static Result success(String msg, Object data) {
-        return Result.success(Constants.REQUESTCODE.HTTP_200.getDictValue(), msg, data);
+        return Result.success(Constants.HTTP_200, msg, data);
     }
 	
 	public static Result success(Object data) {
-        return Result.success(Constants.REQUESTCODE.HTTP_200.getDictValue(), "", data);
+        return Result.success(Constants.HTTP_200, "", data);
     }
 	
 	public static Result success() {
-        return Result.success(Constants.REQUESTCODE.HTTP_200.getDictValue(), "", null);
+        return Result.success(Constants.HTTP_200, "", null);
     }
 	
 	/**
@@ -67,10 +67,10 @@ public class Result extends HashMap<String, Object> {
     }
 	
 	public static Result error(String msg) {
-        return Result.error(Constants.REQUESTCODE.HTTP_500.getDictValue(), msg, null);
+        return Result.error(Constants.HTTP_500, msg, null);
     }
 	
 	public static Result error() {
-        return Result.error(Constants.REQUESTCODE.HTTP_500.getDictValue(), "", null);
+        return Result.error(Constants.HTTP_500, "", null);
     }
 }

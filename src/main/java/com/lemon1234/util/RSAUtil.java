@@ -39,8 +39,8 @@ public class RSAUtil {
 		String privateKeyString = new String(Base64.encodeBase64((privateKey.getEncoded())));
 		
 		Map<String, String> result = new HashMap<String, String>();
-		result.put(Constants.KEY_TYPE.PUBLICKEY.getDictValue(), publicKeyString);
-		result.put(Constants.KEY_TYPE.PRIVATEKEY.getDictValue(), privateKeyString);
+		result.put(Constants.RSA_PUBLIC_KEY, publicKeyString);
+		result.put(Constants.RSA_PRIVATE_KEY, privateKeyString);
 		return result;
 	}
 
@@ -78,9 +78,9 @@ public class RSAUtil {
 		//加密字符串
 		String message = "lemon1234+.--8";
 		Map<String, String> key = RSAUtil.getKey();
-		String megmi = RSAUtil.encryption(message, key.get(Constants.KEY_TYPE.PUBLICKEY.getDictValue()));
+		String megmi = RSAUtil.encryption(message, key.get(Constants.RSA_PUBLIC_KEY));
 		System.out.println(megmi);
-		System.out.println(RSAUtil.decrypt(megmi, key.get(Constants.KEY_TYPE.PRIVATEKEY.getDictValue())));
+		System.out.println(RSAUtil.decrypt(megmi, key.get(Constants.RSA_PRIVATE_KEY)));
 	}
 	
 }

@@ -60,13 +60,13 @@ public class JwtUtils {
             jwtResult.setSuccess(true);
             jwtResult.setClaims(claims);
         } catch (ExpiredJwtException e) {
-        	jwtResult.setErrCode(Constants.JWT_TOKEN_ERROR.JWT_ERRCODE_EXPIRE.getDictValue());
+        	jwtResult.setErrCode(Constants.JWT_ERRCODE_EXPIRE);
         	jwtResult.setSuccess(false);
         } catch (SignatureException e) {
-        	jwtResult.setErrCode(Constants.JWT_TOKEN_ERROR.JWT_ERRCODE_FAIL.getDictValue());
+        	jwtResult.setErrCode(Constants.JWT_ERRCODE_FAIL);
             jwtResult.setSuccess(false);
         } catch (Exception e) {
-        	jwtResult.setErrCode(Constants.JWT_TOKEN_ERROR.JWT_ERRCODE_FAIL.getDictValue());
+        	jwtResult.setErrCode(Constants.JWT_ERRCODE_FAIL);
             jwtResult.setSuccess(false);
         }
         return jwtResult;

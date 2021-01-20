@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.lemon1234.mapper")
 public class PimApplication {
 
+	// https://blog.csdn.net/qq_16681279/article/details/109628726 elasticSearch
 	public static void main(String[] args) {
 		SpringApplication.run(PimApplication.class, args);
 	}
