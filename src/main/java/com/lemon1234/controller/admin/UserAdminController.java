@@ -1,5 +1,6 @@
 package com.lemon1234.controller.admin;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/admin/user")
 public class UserAdminController {
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@ApiOperation(value = "查询所有用户", notes = "", httpMethod = "POST")
 	@PostMapping("/queryUserList")
 	public Result queryUserList() throws Exception {

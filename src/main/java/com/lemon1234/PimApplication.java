@@ -12,4 +12,6 @@ public class PimApplication {
 		SpringApplication.run(PimApplication.class, args);
 	}
 
+	// spring security
+	// https://blog.csdn.net/qq_41910048/article/details/104997710
 }
