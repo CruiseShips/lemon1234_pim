@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * Http Util 类
  * 
@@ -26,7 +28,7 @@ public class HttpUtil {
             response.setContentType("application/json;charset=UTF-8");
             response.setHeader("Cache-Control", "no-cache, must-revalidate");
             PrintWriter writer = response.getWriter();
-            writer.write(message.toString());
+            writer.write(JSON.toJSONString(message));
             writer.flush();
             writer.close();
         } catch (IOException e) {

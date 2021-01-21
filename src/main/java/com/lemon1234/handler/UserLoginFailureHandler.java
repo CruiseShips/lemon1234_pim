@@ -14,7 +14,7 @@ import com.lemon1234.sys.result.Result;
 import com.lemon1234.util.HttpUtil;
 
 /**
- * 管理员登录失败
+ * 登录失败
  */
 @Component
 public class UserLoginFailureHandler implements AuthenticationFailureHandler {
