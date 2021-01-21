@@ -29,9 +29,8 @@ public class SysInterceptor implements HandlerInterceptor {
 			throws Exception {
 		
 		String contextPath = request.getRequestURI();
-		logger.info(contextPath);
 		
-		System.out.println(contextPath);
+		logger.info(contextPath);
 		
 		String token = request.getHeader("token");
 		if(StringUtil.isEmpty(token)) {

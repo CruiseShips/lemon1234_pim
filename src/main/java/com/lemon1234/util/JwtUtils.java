@@ -18,8 +18,8 @@ import io.jsonwebtoken.SignatureException;
 
 public class JwtUtils {
 	
-	private static final Integer TIMEOUT = 1800 * 1000;
-	private static final String SECERT = "112d25046a59c37892bed1547e062ad5";
+	public static final Integer TIMEOUT = 1800 * 1000;
+	public static final String SECERT = "112d25046a59c37892bed1547e062ad5";
 	
 	/**
      * 签发JWT

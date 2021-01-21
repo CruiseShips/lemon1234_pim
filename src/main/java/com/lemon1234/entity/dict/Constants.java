@@ -12,6 +12,7 @@ public class Constants {
 	// 系统返回状态
 	public static final Integer HTTP_200 = 200;
 	public static final Integer HTTP_500 = 500;
+	public static final Integer HTTP_401 = 401;
 	
 	// Jwt token 状态返回
 	public static final Integer JWT_ERRCODE_NULL = 4000;
@@ -24,4 +25,13 @@ public class Constants {
 	// OFF 不正常
 	public static final String OFF = "OFF";
 	
+	// 密码类型
+	// 明码
+	public static final String PLAINCODE = "plainCode";
+	// 加密后密码
+	public static final String ENCRYPTCODE = "encryptCode";
+	
+	public static void main(String[] args) {
+		System.out.println("encryptCode".toUpperCase());
+	}
 }

@@ -39,7 +39,7 @@ public class Admin implements UserDetails {
 	private String phoneNum;
 	
 	@ApiModelProperty("性别")
-	private String gender;
+	private Integer gender;
 	
 	@ApiModelProperty("昵称")
 	private String name;
@@ -141,14 +141,6 @@ public class Admin implements UserDetails {
 		this.phoneNum = phoneNum;
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -179,6 +171,14 @@ public class Admin implements UserDetails {
 
 	public void setAuthorities(Collection<GrantedAuthority> authorities) {
 		this.authorities = authorities;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
 	}
 	
 }

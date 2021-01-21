@@ -1,12 +1,28 @@
 package com.lemon1234.util;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import com.lemon1234.entity.dict.Constants;
 
+/**
+ * 随机密码生成
+ */
+@Component
 public class RandomCodeUtil {
+	
+	private Logger logger = LoggerFactory.getLogger(RandomCodeUtil.class);
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	private static final String[] code = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+	private final String[] code = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
 			"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 			"1","2","3","4","5","6","7","8","9","0",
 			"+","-","*",".",",",".",";","'","[","]","~","!","@","#","$","%",
@@ -16,10 +32,15 @@ public class RandomCodeUtil {
 	 * 生成 count 位随机码
 	 * 
 	 * @param count
-	 * @return
+	 * @return 明码 和 加密后的明码
 	 * @throws Exception
 	 */
-	public static String randomCode(int count) throws Exception {
+	public Map<String, String> randomCode(int count) throws Exception {
+		
+		if(count < 10 || count > 20) {
+			count = 10;
+		}
+		
 		StringBuffer sBuffer = new StringBuffer();
 		
 		int codeLength = code.length;
@@ -28,16 +49,17 @@ public class RandomCodeUtil {
 			sBuffer.append(code[(int)(Math.random()*codeLength)]);
 		}
 		
-		return sBuffer.toString();
-	}
-	
-	public static void main(String[] args) throws Exception {
-		String a = RandomCodeUtil.randomCode(8);
-		System.out.println(a);
-		Map<String, String> key = RSAUtil.getKey();
-		String megmi = RSAUtil.encryption(a, key.get(Constants.RSA_PUBLIC_KEY));
-		System.out.println(megmi);
-		System.out.println(RSAUtil.decrypt(megmi, key.get(Constants.RSA_PRIVATE_KEY)));
+		String plainCode = sBuffer.toString();
+		
+		String encryptCode = bCryptPasswordEncoder.encode(plainCode);
+		
+		logger.info("随机密码生成：" + plainCode + "，生成加密密码" + encryptCode);
+		
+		Map<String, String> result = new HashMap<String, String>();
+		result.put(Constants.PLAINCODE, plainCode);
+		result.put(Constants.ENCRYPTCODE, encryptCode);
+		
+		return result;
 	}
 	
 }

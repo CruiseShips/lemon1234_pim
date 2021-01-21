@@ -10,11 +10,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import com.lemon1234.entity.dict.Constants;
 import com.lemon1234.sys.result.Result;
 import com.lemon1234.util.HttpUtil;
 
 /**
- * 验证登录
+ * 用户未登录执行
  */
 @Component
 public class UserAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
@@ -22,7 +23,7 @@ public class UserAuthenticationEntryPointHandler implements AuthenticationEntryP
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		HttpUtil.print(response, Result.error("用户未登录"));
+		HttpUtil.print(response, Result.error(Constants.HTTP_401, "用户未登录"));
 	}
 
 }
