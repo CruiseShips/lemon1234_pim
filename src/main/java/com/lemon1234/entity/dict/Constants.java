@@ -10,9 +10,14 @@ public class Constants {
 
 	
 	// 系统返回状态
+	// 成功
 	public static final Integer HTTP_200 = 200;
+	// 业务代码错误
 	public static final Integer HTTP_500 = 500;
+	// 权限不够
 	public static final Integer HTTP_401 = 401;
+	// 用户未登录或登录失败
+	public static final Integer HTTP_600 = 600;
 	
 	// Jwt token 状态返回
 	public static final Integer JWT_ERRCODE_NULL = 4000;

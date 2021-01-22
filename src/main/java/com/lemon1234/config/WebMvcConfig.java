@@ -2,10 +2,7 @@ package com.lemon1234.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.lemon1234.interceptor.SysInterceptor;
 
 @Component("webMvcComponent")
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -24,12 +21,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 添加拦截器
+     * 
+     * 
+     * **** 
+     * 拦截器暂时没有用， 直接使用 SpringSecurity进行拦截判断
      */
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new SysInterceptor())
-			.addPathPatterns("/**")
-			.excludePathPatterns("/api/login");
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new SysInterceptor())
+//			.addPathPatterns("/**")
+//			.excludePathPatterns("/api/login");
+//	}
     
 }

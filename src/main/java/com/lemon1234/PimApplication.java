@@ -14,4 +14,7 @@ public class PimApplication {
 
 	// spring security
 	// https://blog.csdn.net/qq_41910048/article/details/104997710
+	// https://www.cnblogs.com/ldsweely/p/12165236.html
+	// https://www.cnblogs.com/niceyoo/p/10964277.html
+	
 }

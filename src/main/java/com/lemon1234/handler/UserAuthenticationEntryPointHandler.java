@@ -23,7 +23,7 @@ public class UserAuthenticationEntryPointHandler implements AuthenticationEntryP
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		HttpUtil.print(response, Result.error(Constants.HTTP_401, "用户未登录"));
+		HttpUtil.print(response, Result.error(Constants.HTTP_600, "用户未登录"));
 	}
 
 }
