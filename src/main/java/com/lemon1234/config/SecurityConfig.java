@@ -3,18 +3,21 @@ package com.lemon1234.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.lemon1234.handler.UserAuthAccessDeniedHandler;
-import com.lemon1234.handler.UserAuthenticationEntryPointHandler;
-import com.lemon1234.handler.UserLoginFailureHandler;
-import com.lemon1234.handler.UserLoginSuccessHandler;
-import com.lemon1234.handler.UserLogoutSuccessHandler;
+import com.lemon1234.config.oauth.AdminAccessDeniedHandler;
+import com.lemon1234.config.oauth.AdminAuthenticationEntryPoint;
+import com.lemon1234.config.oauth.AdminAuthenticationFailureHandler;
+import com.lemon1234.config.oauth.AdminAuthenticationProvider;
+import com.lemon1234.config.oauth.AdminAuthenticationSuccessHandler;
+import com.lemon1234.config.oauth.AdminLogoutSuccessHandler;
 
 /**
  * SpringSecurity 安全配置类
@@ -27,32 +30,30 @@ import com.lemon1234.handler.UserLogoutSuccessHandler;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	/**
-     * 自定义登录成功处理器
-     */
-    @Autowired
-    private UserLoginSuccessHandler userLoginSuccessHandler;
-    /**
-     * 自定义登录失败处理器
-     */
-    @Autowired
-    private UserLoginFailureHandler userLoginFailureHandler;
-    /**
-     * 自定义注销成功处理器
-     */
-    @Autowired
-    private UserLogoutSuccessHandler userLogoutSuccessHandler;
-    /**
-     * 自定义暂无权限处理器
-     */
-    @Autowired
-    private UserAuthAccessDeniedHandler userAuthAccessDeniedHandler;
-    /**
-     * 自定义未登录的处理器
-     */
-    @Autowired
-    private UserAuthenticationEntryPointHandler userAuthenticationEntryPointHandler;
-
+	// 登录成功
+	@Autowired
+	private AdminAuthenticationSuccessHandler adminAuthenticationSuccessHandler;
+	
+	// 登录失败
+	@Autowired
+	private AdminAuthenticationFailureHandler adminAuthenticationFailureHandler;
+	
+	// 退出
+	@Autowired
+	private AdminLogoutSuccessHandler adminLogoutSuccessHandler;
+	
+	// 自定义登录
+	@Autowired
+	private AdminAuthenticationProvider adminAuthenticationProvider;
+	
+	// 未登录
+	@Autowired
+	private AdminAuthenticationEntryPoint adminAuthenticationEntryPoint;
+	
+	// 没有权限
+	@Autowired
+	private AdminAccessDeniedHandler adminAccessDeniedHandler;
+	
 	/**
 	 * 加密方式
 	 * @return
@@ -62,50 +63,70 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 	
-	/**
-     * 配置security的控制逻辑
-     * @Author Sans
-     * @CreateTime 2019/10/1 16:56
-     * @Param  http 请求
-     */
+	// 描述: 静态资源放行，这里的放行，是不走 Spring Security 过滤器链
+    @Override
+    public void configure(WebSecurity web) {
+        // 可以直接访问的静态数据
+        web.ignoring()
+                .antMatchers("/css/**")
+                .antMatchers("/404.html")
+                .antMatchers("/500.html")
+                .antMatchers("/html/**")
+                .antMatchers("/js/**");
+    }
+    
+
+    // 加入自定义的安全认证
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(adminAuthenticationProvider);
+    }
+	
+    // 配置security的控制逻辑
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
     	// 不进行权限验证的请求或资源(从配置文件中读取)
-    	String[] matchers = new String[] {};
+    	String[] matchers = new String[] {
+    			// swaggerui 的 不进行权限拦截的请求
+    			"/swagger*//**", 
+    			"/v2/api-docs",
+    			"/swagger-resources/**",
+    			"/swagger-ui.html",
+    			"/webjars/**",
+    			// 登录请求
+    			"/login"
+    			};
     	
-        http.authorizeRequests()
-               .antMatchers(matchers).permitAll()
-                // 其他的需要登陆后才能访问
-                .anyRequest().authenticated()
-                .and()
-                // 配置未登录自定义处理类
-                .httpBasic().authenticationEntryPoint(userAuthenticationEntryPointHandler)
-                .and()
-                // 配置登录地址
-                .formLogin()
-                .loginProcessingUrl("/login/userLogin")
-                // 配置登录成功自定义处理类
-                .successHandler(userLoginSuccessHandler)
-                // 配置登录失败自定义处理类
-                .failureHandler(userLoginFailureHandler)
-                .and()
-                // 配置登出地址
-                .logout()
-                .logoutUrl("/login/userLogout")
-                // 配置用户登出自定义处理类
-                .logoutSuccessHandler(userLogoutSuccessHandler)
-                .and()
-                // 配置没有权限自定义处理类
-                .exceptionHandling().accessDeniedHandler(userAuthAccessDeniedHandler)
-                .and()
-                // 取消跨站请求伪造防护
-                .csrf().disable();
-        
-        // 基于Token不需要session
+    	// 基于Token不需要session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         
         // 禁用缓存
         http.headers().cacheControl();
+        
+        http.csrf().disable()
+        	.authorizeRequests()
+        	// 用于配置直接放行的请求
+        	.antMatchers(matchers).permitAll()
+        	// 其余请求都需要验证
+	        .anyRequest().authenticated()
+	        .and()
+	        // 开启登录
+	        .formLogin()
+        	// 登录成功
+        	.successHandler(adminAuthenticationSuccessHandler)
+        	// 登录失败
+        	.failureHandler(adminAuthenticationFailureHandler)
+        	.permitAll()
+        	.and()
+            // 注销成功
+            .logout().logoutSuccessHandler(adminLogoutSuccessHandler)
+            .permitAll()
+            .and()
+            .exceptionHandling()
+            // 未登录请求资源
+            .authenticationEntryPoint(adminAuthenticationEntryPoint)
+            // 没有权限
+            .accessDeniedHandler(adminAccessDeniedHandler);
     }
 }

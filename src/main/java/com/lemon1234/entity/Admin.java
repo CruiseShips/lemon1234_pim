@@ -72,19 +72,19 @@ public class Admin implements UserDetails {
 	// 账户是否过期
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	// 账户是否被锁定
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	// 证书是否过期
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	/**

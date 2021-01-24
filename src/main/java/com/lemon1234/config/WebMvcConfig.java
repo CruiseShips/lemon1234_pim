@@ -19,18 +19,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
-    /**
-     * 添加拦截器
-     * 
-     * 
-     * **** 
-     * 拦截器暂时没有用， 直接使用 SpringSecurity进行拦截判断
-     */
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(new SysInterceptor())
-//			.addPathPatterns("/**")
-//			.excludePathPatterns("/api/login");
-//	}
-    
 }
