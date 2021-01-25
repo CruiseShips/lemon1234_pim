@@ -29,6 +29,7 @@ public class AdminAuthenticationSuccessHandler implements AuthenticationSuccessH
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		Admin admin = (Admin) authentication.getPrincipal();
+		
 		String token = JwtUtils.createJWT(admin.getId(), JSON.toJSONString(authentication.getAuthorities()), JwtUtils.TIMEOUT);
 		
 		HttpUtil.print(response, Result.success("用户成功登录", token));

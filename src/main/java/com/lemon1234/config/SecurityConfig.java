@@ -94,8 +94,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			"/swagger-resources/**",
     			"/swagger-ui.html",
     			"/webjars/**",
-    			// 登录请求
-    			"/login"
+    			// 登录、退出
+    			"/login",
+    			"/logout"
     			};
     	
     	// 基于Token不需要session

@@ -16,8 +16,6 @@ public class Constants {
 	public static final Integer HTTP_500 = 500;
 	// 权限不够
 	public static final Integer HTTP_401 = 401;
-	// 用户未登录或登录失败
-	public static final Integer HTTP_600 = 600;
 	
 	// Jwt token 状态返回
 	public static final Integer JWT_ERRCODE_NULL = 4000;
@@ -35,6 +33,11 @@ public class Constants {
 	public static final String PLAINCODE = "plainCode";
 	// 加密后密码
 	public static final String ENCRYPTCODE = "encryptCode";
+	
+	// 请求方式 GET
+	public static final String GET = "GET";
+	// 请求方式 POST
+	public static final String POST = "POST";
 	
 	public static void main(String[] args) {
 		System.out.println("encryptCode".toUpperCase());
