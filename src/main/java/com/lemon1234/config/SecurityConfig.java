@@ -3,6 +3,7 @@ package com.lemon1234.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.lemon1234.config.oauth.AdminAccessDeniedHandler;
 import com.lemon1234.config.oauth.AdminAuthenticationEntryPoint;
@@ -18,6 +21,8 @@ import com.lemon1234.config.oauth.AdminAuthenticationFailureHandler;
 import com.lemon1234.config.oauth.AdminAuthenticationProvider;
 import com.lemon1234.config.oauth.AdminAuthenticationSuccessHandler;
 import com.lemon1234.config.oauth.AdminLogoutSuccessHandler;
+import com.lemon1234.filter.AdminUsernamePasswordFilter;
+import com.lemon1234.filter.WebSecurityCorsFilter;
 
 /**
  * SpringSecurity 安全配置类
@@ -54,6 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AdminAccessDeniedHandler adminAccessDeniedHandler;
 	
+	// 跨域过滤器
+	@Autowired
+	private WebSecurityCorsFilter webSecurityCorsFilter;
+	
 	/**
 	 * 加密方式
 	 * @return
@@ -72,7 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/404.html")
                 .antMatchers("/500.html")
                 .antMatchers("/html/**")
-                .antMatchers("/js/**");
+                .antMatchers("/js/**")
+                .antMatchers(HttpMethod.OPTIONS, "/**");
     }
     
 
@@ -105,7 +115,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 禁用缓存
         http.headers().cacheControl();
         
-        http.csrf().disable()
+        http.cors().and()
+        	.csrf().disable()
         	.authorizeRequests()
         	// 用于配置直接放行的请求
         	.antMatchers(matchers).permitAll()
@@ -115,10 +126,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        // 开启登录
 	        .formLogin()
         	// 登录成功
-        	.successHandler(adminAuthenticationSuccessHandler)
+        	// .successHandler(adminAuthenticationSuccessHandler)
         	// 登录失败
-        	.failureHandler(adminAuthenticationFailureHandler)
-        	.permitAll()
+        	// .failureHandler(adminAuthenticationFailureHandler)
+        	// .permitAll()
         	.and()
             // 注销成功
             .logout().logoutSuccessHandler(adminLogoutSuccessHandler)
@@ -128,6 +139,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 未登录请求资源
             .authenticationEntryPoint(adminAuthenticationEntryPoint)
             // 没有权限
-            .accessDeniedHandler(adminAccessDeniedHandler);
+            .accessDeniedHandler(adminAccessDeniedHandler)
+            .and().addFilterBefore(webSecurityCorsFilter, ChannelProcessingFilter.class)
+            .addFilterAt(adminUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+    
+    /**
+     * 自定义登录组件
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public AdminUsernamePasswordFilter adminUsernamePasswordFilter() throws Exception {
+    	AdminUsernamePasswordFilter filter = new AdminUsernamePasswordFilter();
+    	filter.setAuthenticationManager(authenticationManager());
+    	filter.setAuthenticationSuccessHandler(adminAuthenticationSuccessHandler);
+    	filter.setAuthenticationFailureHandler(adminAuthenticationFailureHandler);
+    	return filter;
     }
 }
