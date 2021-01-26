@@ -30,6 +30,11 @@ spring:
         min-idle: 0
   aop:
     proxy-target-class: true
+  # elasticsearch 连接地址
+  elasticsearch:
+    rest:
+      uris:
+      - http://10.0.6.190:9200
 
 logging:
     level:

@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Elasticsearch 配置
- * https://www.jianshu.com/p/1fbfde2aefa5
+ * https://blog.csdn.net/chengyuqiang/article/details/102938266
  */
 @Configuration
 public class ElasticsearchConfig {
