@@ -8,7 +8,6 @@
 	- mybatis plus
 	- JWT
 	- swagger2
-	- hutool
 	- logback
 	
 ## 项目编码
