@@ -14,9 +14,6 @@ public class User {
 	@ApiModelProperty("昵称")
 	private String name;
 	
-	@ApiModelProperty("二级密码")
-	private String sercet;
-	
 	@ApiModelProperty("创建时间")
 	private Date createDt;
 	
@@ -40,6 +37,22 @@ public class User {
 	// ON OFF
 	@ApiModelProperty("封禁")
 	private String ban;
+	
+	// 二级密码
+	@ApiModelProperty("二级密码")
+	private String sercet;
+	
+	@ApiModelProperty("盐")
+	private String salt;
+	
+	// 会员无上限
+	// 非会员有 512M
+	@ApiModelProperty("存储空间使用大小（RAS秘钥、导出文件等）")
+	private Integer spaceSize;
+	
+	// 10 块钱永久
+	@ApiModelProperty("是否是会员")
+	private Integer isMembers;
 
 	public String getId() {
 		return id;
