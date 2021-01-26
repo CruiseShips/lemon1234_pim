@@ -56,4 +56,9 @@
 		PRIMARY KEY (`id`) USING BTREE	
 	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 	
+	
+### 默认数据
+	INSERT INTO `t_pim_admin` VALUES ('a', 'admin', '$2a$10$EQhVS5pj.Z3GEizhzK4rjOlPV3Z4mbWEczzB5iSbsNf6E.ZVRTwxW', '2021-01-23 15:41:08', NULL, NULL, NULL, NULL, NULL, 'ON');
+	INSERT INTO `t_pim_admin_role` VALUES ('a', 'a', 'a');
+	INSERT INTO `t_pim_role` VALUES ('a', '管理员', 'ADMIN');
 README.md 编写规范：https://www.cnblogs.com/wj-1314/p/8547763.html
