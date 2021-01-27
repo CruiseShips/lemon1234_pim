@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,14 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.lemon1234.config.filter.AdminUsernamePasswordFilter;
+import com.lemon1234.config.filter.JWTAuthenticationFilter;
+import com.lemon1234.config.filter.WebSecurityCorsFilter;
 import com.lemon1234.config.oauth.AdminAccessDeniedHandler;
 import com.lemon1234.config.oauth.AdminAuthenticationEntryPoint;
 import com.lemon1234.config.oauth.AdminAuthenticationFailureHandler;
 import com.lemon1234.config.oauth.AdminAuthenticationProvider;
 import com.lemon1234.config.oauth.AdminAuthenticationSuccessHandler;
 import com.lemon1234.config.oauth.AdminLogoutSuccessHandler;
-import com.lemon1234.filter.AdminUsernamePasswordFilter;
-import com.lemon1234.filter.WebSecurityCorsFilter;
+import com.lemon1234.util.IgnoringUrlUtil;
 
 /**
  * SpringSecurity 安全配置类
@@ -96,19 +99,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
-    	// 不进行权限验证的请求或资源(从配置文件中读取)
-    	String[] matchers = new String[] {
-    			// swaggerui 的 不进行权限拦截的请求
-    			"/swagger*//**", 
-    			"/v2/api-docs",
-    			"/swagger-resources/**",
-    			"/swagger-ui.html",
-    			"/webjars/**",
-    			// 登录、退出
-    			"/login",
-    			"/logout"
-    			};
-    	
     	// 基于Token不需要session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         
@@ -119,7 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.csrf().disable()
         	.authorizeRequests()
         	// 用于配置直接放行的请求
-        	.antMatchers(matchers).permitAll()
+        	.antMatchers(IgnoringUrlUtil.ignoringUrl()).permitAll()
         	// 其余请求都需要验证
 	        .anyRequest().authenticated()
 	        .and()
@@ -142,13 +132,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .accessDeniedHandler(adminAccessDeniedHandler)
             .and().addFilterBefore(webSecurityCorsFilter, ChannelProcessingFilter.class)
             .addFilterAt(adminUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class)
-            // 增加 JWT 判断
-            // .addFilterBefore(filter, beforeFilter)
             ;
     }
     
     /**
      * 自定义登录组件
+     * 
      * @return
      * @throws Exception
      */
@@ -159,5 +148,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	filter.setAuthenticationSuccessHandler(adminAuthenticationSuccessHandler);
     	filter.setAuthenticationFailureHandler(adminAuthenticationFailureHandler);
     	return filter;
+    }
+    
+    /**
+     * JWT 过滤器
+     * 
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public JWTAuthenticationFilter jWTAuthenticationFilter() throws Exception {
+    	JWTAuthenticationFilter jwtFilter = new JWTAuthenticationFilter(authenticationManagerBean());
+    	return jwtFilter;
+    }
+    
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
