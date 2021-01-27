@@ -3,17 +3,34 @@ package com.lemon1234.test;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.lemon1234.entity.AccountLog;
+import com.lemon1234.entity.User;
+import com.lemon1234.mapper.AccountLogMapper;
+import com.lemon1234.mapper.UserMapper;
 
 @SpringBootTest
 public class PimApplicationTest {
-
+	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private UserMapper userMapper;
+	
+	@Autowired
+	private AccountLogMapper accountLogMapper;
 	
 	@Test
-	public void getPassword() {
-		String password = bCryptPasswordEncoder.encode("admin");
-		System.out.println(password);
+	public void addData() {
+		User user = new User();
+		
+		userMapper.insert(user);
+	}
+	
+	@Test
+	public void addLog() {
+		AccountLog log = new AccountLog();
+		
+		log.setAccountId("123123");
+		
+		accountLogMapper.insert(log);
 	}
 }
