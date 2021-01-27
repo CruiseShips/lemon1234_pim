@@ -1,5 +1,6 @@
 package com.lemon1234.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModel;
@@ -13,9 +14,6 @@ public class User {
 	
 	@ApiModelProperty("昵称")
 	private String name;
-	
-	@ApiModelProperty("创建时间")
-	private Date createDt;
 	
 	@ApiModelProperty("邮箱")
 	private String email;
@@ -34,104 +32,24 @@ public class User {
 	@ApiModelProperty("头像")
 	private String photo;
 	
-	// ON OFF
-	@ApiModelProperty("封禁")
-	private String ban;
+	@ApiModelProperty("创建时间")
+	private Date createDt;
 	
 	// 二级密码
 	@ApiModelProperty("二级密码")
 	private String sercet;
 	
+	// 系统生成
+	// 可以自己设定，可以系统生成
 	@ApiModelProperty("盐")
 	private String salt;
 	
-	// 会员无上限
-	// 非会员有 512M
-	@ApiModelProperty("存储空间使用大小（RAS秘钥、导出文件等）")
-	private Integer spaceSize;
+	@ApiModelProperty("已经使用的空间大小")
+	private BigDecimal spaceSize;
 	
-	// 10 块钱永久
+	// 1000kb
+	// 10 块钱永久使用
 	@ApiModelProperty("是否是会员")
 	private Integer isMembers;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSercet() {
-		return sercet;
-	}
-
-	public void setSercet(String sercet) {
-		this.sercet = sercet;
-	}
-
-	public Date getCreateDt() {
-		return createDt;
-	}
-
-	public void setCreateDt(Date createDt) {
-		this.createDt = createDt;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhoneNum() {
-		return phoneNum;
-	}
-
-	public void setPhoneNum(String phoneNum) {
-		this.phoneNum = phoneNum;
-	}
-
-	public String getOpenId() {
-		return openId;
-	}
-
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
-
-	public Integer getGender() {
-		return gender;
-	}
-
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
-
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-
-	public String getBan() {
-		return ban;
-	}
-
-	public void setBan(String ban) {
-		this.ban = ban;
-	}
 	
 }

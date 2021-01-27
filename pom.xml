@@ -116,7 +116,11 @@
 		    <artifactId>org.apache.commons.codec</artifactId>
 		    <version>1.8</version>
 		</dependency>
-		<!-- Sentinel 来源 SpringCloud Alibaba：流量控制、熔断降级、系统负载保护 -->
+		<!-- 发送邮件 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 		
 		<!-- test -->
 		<dependency>

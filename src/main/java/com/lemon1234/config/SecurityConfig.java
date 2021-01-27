@@ -141,7 +141,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 没有权限
             .accessDeniedHandler(adminAccessDeniedHandler)
             .and().addFilterBefore(webSecurityCorsFilter, ChannelProcessingFilter.class)
-            .addFilterAt(adminUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterAt(adminUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class)
+            // 增加 JWT 判断
+            // .addFilterBefore(filter, beforeFilter)
+            ;
     }
     
     /**
