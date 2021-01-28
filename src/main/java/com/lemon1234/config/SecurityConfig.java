@@ -131,7 +131,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 没有权限
             .accessDeniedHandler(adminAccessDeniedHandler)
             .and().addFilterBefore(webSecurityCorsFilter, ChannelProcessingFilter.class)
-            .addFilterAt(adminUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class)
+		          .addFilterBefore(jWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+		          .addFilterAt(adminUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class)
             ;
     }
     
@@ -144,7 +145,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AdminUsernamePasswordFilter adminUsernamePasswordFilter() throws Exception {
     	AdminUsernamePasswordFilter filter = new AdminUsernamePasswordFilter();
-    	filter.setAuthenticationManager(authenticationManager());
+    	filter.setAuthenticationManager(authenticationManagerBean());
     	filter.setAuthenticationSuccessHandler(adminAuthenticationSuccessHandler);
     	filter.setAuthenticationFailureHandler(adminAuthenticationFailureHandler);
     	return filter;
