@@ -11,9 +11,6 @@ public class IgnoringUrlUtil {
     			"/swagger-resources/**",
     			"/swagger-ui.html",
     			"/webjars/**",
-    			// 登录、退出
-    			"/admin/login",
-    			"/logout",
     			"/*.html"
     			};
     	

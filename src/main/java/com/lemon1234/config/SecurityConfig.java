@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.lemon1234.config.filter.AdminUsernamePasswordFilter;
 import com.lemon1234.config.filter.JWTAuthenticationFilter;
 import com.lemon1234.config.filter.WebSecurityCorsFilter;
 import com.lemon1234.config.oauth.AdminAccessDeniedHandler;
@@ -85,6 +84,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/500.html")
                 .antMatchers("/html/**")
                 .antMatchers("/js/**")
+                .antMatchers("/admin/login")
+                .antMatchers("/admin/logout")
+                .antMatchers("/admin/updToken")
                 .antMatchers(HttpMethod.OPTIONS, "/**");
     }
     
@@ -113,13 +115,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	// 其余请求都需要验证
 	        .anyRequest().authenticated()
 	        .and()
-	        // 开启登录
 	        .formLogin()
-        	// 登录成功
-        	// .successHandler(adminAuthenticationSuccessHandler)
-        	// 登录失败
-        	// .failureHandler(adminAuthenticationFailureHandler)
-        	// .permitAll()
+	        .successHandler(adminAuthenticationSuccessHandler)
+	        .failureHandler(adminAuthenticationFailureHandler)
         	.and()
             // 注销成功
             .logout().logoutSuccessHandler(adminLogoutSuccessHandler)
@@ -130,25 +128,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authenticationEntryPoint(adminAuthenticationEntryPoint)
             // 没有权限
             .accessDeniedHandler(adminAccessDeniedHandler)
-            .and().addFilterBefore(webSecurityCorsFilter, ChannelProcessingFilter.class)
-		          .addFilterBefore(jWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-		          .addFilterAt(adminUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class)
+            .and()
+            .addFilterBefore(webSecurityCorsFilter, ChannelProcessingFilter.class)
+            .addFilterBefore(jWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             ;
-    }
-    
-    /**
-     * 自定义登录组件
-     * 
-     * @return
-     * @throws Exception
-     */
-    @Bean
-    public AdminUsernamePasswordFilter adminUsernamePasswordFilter() throws Exception {
-    	AdminUsernamePasswordFilter filter = new AdminUsernamePasswordFilter();
-    	filter.setAuthenticationManager(authenticationManagerBean());
-    	filter.setAuthenticationSuccessHandler(adminAuthenticationSuccessHandler);
-    	filter.setAuthenticationFailureHandler(adminAuthenticationFailureHandler);
-    	return filter;
     }
     
     /**
