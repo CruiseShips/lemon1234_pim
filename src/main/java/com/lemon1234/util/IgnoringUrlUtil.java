@@ -12,7 +12,7 @@ public class IgnoringUrlUtil {
     			"/swagger-ui.html",
     			"/webjars/**",
     			// 登录、退出
-    			"/login",
+    			"/admin/login",
     			"/logout",
     			"/*.html"
     			};
