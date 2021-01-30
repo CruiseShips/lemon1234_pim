@@ -9,40 +9,62 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.lemon1234.entity.Admin;
 import com.lemon1234.entity.dict.Constants;
+import com.lemon1234.service.AdminService;
 import com.lemon1234.sys.result.JwtResult;
 import com.lemon1234.sys.result.Result;
 import com.lemon1234.util.HttpUtil;
 import com.lemon1234.util.JwtUtils;
 import com.lemon1234.util.StringUtil;
 
+/**
+ * JWT 拦截器
+ * 
+ * @date 2021年1月29日
+ * @author lemon1234.zhihua
+ */
 @Component
-public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
+public class JWTAuthenticationFilter extends OncePerRequestFilter {
+	
+	@Autowired
+	private AdminService adminService;
 	
 	private Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
-		super(authenticationManager);
-	}
-
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
-		logger.info("请求路径：" + request.getRequestURI());
-		
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		// 获取头请求中的 token
 		String token = request.getHeader("token");
 		
-		if(StringUtil.isEmpty(token)) {
-			HttpUtil.print(response, Result.error(Constants.HTTP_401, "JWT 签名验证不存在"));
-			return;
-		} else {
+		logger.info("请求路径：" + request.getRequestURI() + "，请求 token：" + token);
+		
+		if(StringUtil.isNotEmpty(token)) {
 			JwtResult jwtResult = JwtUtils.validateJWT(token);
+			
 			if(jwtResult.isSuccess()) {
-				super.doFilterInternal(request, response, chain);
+				String username = jwtResult.getClaims().getId();
+				
+				logger.info("用户识别：" + username);
+				if(SecurityContextHolder.getContext().getAuthentication() != null) {
+					filterChain.doFilter(request, response);
+					return;
+				}
+				
+				// 这里可以进行优化，放入 redis 中
+				Admin admin = (Admin)adminService.loadUserByUsername(username);
+				// 存放到节点中，方便下一个过滤器进行过滤
+				UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(admin, null, admin.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(upat);
+				
+				filterChain.doFilter(request, response);
 			} else {
 				if(jwtResult.getErrCode() == Constants.JWT_ERRCODE_FAIL) {
 					HttpUtil.print(response, Result.error(Constants.HTTP_401, "JWT 签名验证不通过"));
@@ -52,8 +74,11 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 					return;
 				}
 			}
+			
+		} else {
+			filterChain.doFilter(request, response);
 		}
-		
+		// ---
 	}
 
 }

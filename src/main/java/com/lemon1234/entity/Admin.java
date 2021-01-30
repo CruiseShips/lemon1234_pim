@@ -24,7 +24,7 @@ public class Admin implements UserDetails {
 	private String id;
 	
 	@ApiModelProperty("账号")
-	private String account;
+	private String username;
 	
 	@ApiModelProperty("密码")
 	private String password;
@@ -66,7 +66,7 @@ public class Admin implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return account;
+		return username;
 	}
 
 	// 账户是否过期
@@ -109,12 +109,8 @@ public class Admin implements UserDetails {
 		this.id = id;
 	}
 
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Date getCreateDt() {

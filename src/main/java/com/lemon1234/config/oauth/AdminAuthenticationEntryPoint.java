@@ -25,7 +25,7 @@ public class AdminAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		HttpUtil.print(response, Result.error("用户没有登录"));
+		HttpUtil.print(response, Result.error("请登录~~"));
 	}
 
 }

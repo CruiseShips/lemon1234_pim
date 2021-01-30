@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/admin/user")
 public class UserAdminController {
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN1')")
 	@ApiOperation(value = "查询所有用户", notes = "需要有管理员权限", httpMethod = "POST")
 	@PostMapping("/queryUserList")
 	public Result queryUserList() throws Exception {

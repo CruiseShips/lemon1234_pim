@@ -28,7 +28,8 @@ public class AdminServiceImpl implements AdminService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Admin admin = adminMapper.loadUserByUsername(username);
 		if(admin == null) {
-			throw new UsernameNotFoundException("用户不存在");
+			// throw new UsernameNotFoundException("用户不存在");
+			return null;
 		} else {
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			

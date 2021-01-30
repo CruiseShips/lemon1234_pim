@@ -28,7 +28,7 @@
 	-- admin 管理员表
 	CREATE TABLE `t_pim_admin`  (
 		`id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-		`account` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
 		`password` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
 		`createDt` datetime(0) NULL DEFAULT NULL,
 		`email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,

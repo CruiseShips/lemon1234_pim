@@ -103,6 +103,7 @@ public class JwtUtils {
         System.out.println(sc);
 
         // 后端验证token
+        // JwtResult checkResult = validateJWT("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJbe1wiYXV0aG9yaXR5XCI6XCJST0xFX0FETUlOXCJ9XSIsImlzcyI6IkxlbW9uMTIzNCIsImlhdCI6MTYxMTk3ODAzNiwiZXhwIjoxNjExOTc5ODM2fQ.5G5JUamJ7m12rRJgrWTwb2wG49vpjZtDQQ2V_H05Axg");
         JwtResult checkResult = validateJWT(sc);
         System.out.println(checkResult.isSuccess());
         System.out.println(checkResult.getErrCode());

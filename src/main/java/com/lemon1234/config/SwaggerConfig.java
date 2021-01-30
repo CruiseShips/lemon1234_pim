@@ -21,10 +21,12 @@ public class SwaggerConfig {
 	public Docket createRestApi() {
 		
 		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append("每一个星球都有一个驱动核心， \n");
-		sBuffer.append("每一种思想都有影响力的种子。\n");
-		sBuffer.append("感受世界的温度， \n");
-		sBuffer.append("年轻的你也能成为改变世界的动力!");
+		sBuffer.append("希望你能看见让你大吃一惊的东西，\n");
+		sBuffer.append("希望你会有前所未有的感受，\n");
+		sBuffer.append("希望你能结交有着不同观点的人，\n");
+		sBuffer.append("希望你的生活令你骄傲，\n");
+		sBuffer.append("如果你发现事实并非如此，希望你能鼓起勇气！\n");
+		sBuffer.append("一切从头再来！");
 		
 		// 配置一下 Swagger 文档类型
 		Docket docket = new Docket(DocumentationType.SWAGGER_2);
