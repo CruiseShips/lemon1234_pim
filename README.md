@@ -63,7 +63,7 @@
 		`id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 		`accountId` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
 		`account` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-		`password` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`password` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
 		`updateDt` datetime NULL DEFAULT NULL,
 		`fileId` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
 		PRIMARY KEY (`id`) USING BTREE

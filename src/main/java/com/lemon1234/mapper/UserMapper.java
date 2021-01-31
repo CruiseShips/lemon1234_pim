@@ -7,5 +7,4 @@ import com.lemon1234.entity.User;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
-
 }

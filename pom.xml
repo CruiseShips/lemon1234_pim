@@ -47,11 +47,17 @@
 	        <version>3.4.1</version>
 	    </dependency>
 	    <!-- druid -->
-		<dependency>
+	    <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+        <!-- 不使用之前的单体，使用和springboot结合的 -->
+		<!-- <dependency>
 		    <groupId>com.alibaba</groupId>
 		    <artifactId>druid</artifactId>
 		    <version>1.2.4</version>
-		</dependency>
+		</dependency> -->
 	    <!-- 数据库 -->
 	    <dependency>
 			<groupId>mysql</groupId>

@@ -1,31 +1,33 @@
 package com.lemon1234.entity.dto;
 
+import com.lemon1234.entity.sys.BaseDTO;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("查看所有角色DTO")
-public class QueryUserListDTO {
+@ApiModel("查看所有用户DTO")
+public class QueryUserListDTO extends BaseDTO {
 
-	@ApiModelProperty("封禁")
-	private String phone;
+	@ApiModelProperty("用户昵称")
+	private String name;
 	
-	@ApiModelProperty("封禁")
-	private String ban;
+	@ApiModelProperty("用户手机号")
+	private String phoneNum;
 
-	public String getPhone() {
-		return phone;
+	public String getPhoneNum() {
+		return phoneNum;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
 	}
 
-	public String getBan() {
-		return ban;
+	public String getName() {
+		return name;
 	}
 
-	public void setBan(String ban) {
-		this.ban = ban;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
