@@ -10,6 +10,7 @@ import com.lemon1234.entity.User;
 import com.lemon1234.entity.dto.QueryUserListDTO;
 import com.lemon1234.mapper.UserMapper;
 import com.lemon1234.service.UserService;
+import com.lemon1234.util.StringUtil;
 
 @Transactional
 @Service("userService")
@@ -23,10 +24,10 @@ public class UserServiceImpl implements UserService {
 		QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
 		// 只查询某些字段
 		queryWrapper.select("id", "name", "email", "phoneNum", "openId", "gender", "photo", "createDt", "spaceSize", "isMembers");
-		if(dto.getName() != null) {
+		if(StringUtil.isNotEmpty(dto.getName())) {
 			queryWrapper.like("name", dto.getName());
 		}
-		if(dto.getPhoneNum() != null) {
+		if(StringUtil.isNotEmpty(dto.getPhoneNum())) {
 			queryWrapper.eq("phoneNum", dto.getPhoneNum());
 		}
 		queryWrapper.orderByDesc("createDt");

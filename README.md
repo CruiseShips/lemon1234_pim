@@ -22,6 +22,7 @@
 	DROP TABLE IF EXISTS `t_pim_role`;
 	DROP TABLE IF EXISTS `t_pim_accountlog`;
 	DROP TABLE IF EXISTS `t_pim_user`;
+	DROP TABLE IF EXISTS `t_pim_bank`;
 	
 ### 创建表
 
@@ -83,6 +84,16 @@
 		`salt` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
 		`spaceSize` decimal(12, 4) NULL DEFAULT NULL,
 		`isMembers` int NULL DEFAULT NULL,
+		PRIMARY KEY (`id`) USING BTREE
+	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+	
+	-- 用户账号表
+	CREATE TABLE `t_pim_bank`  (
+		`id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, 
+		`userId` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`describe` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`createDt` datetime(0) NULL DEFAULT NULL,
 		PRIMARY KEY (`id`) USING BTREE
 	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 	

@@ -26,7 +26,7 @@ spring:
   aop:
     proxy-target-class: true
   # elasticsearch 连接地址
-  elasticsearch:    rest:      uris:      - http://10.0.6.190:9200/
+#  elasticsearch:#    rest:#      uris:#      - http://10.0.6.190:9200/
   mail:
     # 163
     host: smtp.163.com
