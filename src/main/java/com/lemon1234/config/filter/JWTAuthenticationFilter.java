@@ -52,7 +52,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 			if(jwtResult.isSuccess()) {
 				String username = jwtResult.getClaims().getId();
 				
-				logger.info("用户识别：" + username);
 				if(SecurityContextHolder.getContext().getAuthentication() != null) {
 					filterChain.doFilter(request, response);
 					return;

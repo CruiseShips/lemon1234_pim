@@ -9,7 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 
 /**
- * mybatis plus 配置类
+ * mybatis plus 分页配置类
+ * 3.4.x 之后需要这么配置~~
  * 
  * @date 2021年1月31日
  * @author lemon1234.zhihua

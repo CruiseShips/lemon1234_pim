@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lemon1234.entity.Role;
 import com.lemon1234.mapper.RoleMapper;
@@ -15,6 +16,7 @@ import com.lemon1234.service.RoleService;
  * @date 2021年1月23日
  * @author lemon1234.zhihua
  */
+@Transactional
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
 	

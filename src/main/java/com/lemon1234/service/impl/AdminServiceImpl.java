@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lemon1234.entity.Admin;
 import com.lemon1234.entity.Role;
@@ -16,6 +17,10 @@ import com.lemon1234.mapper.AdminMapper;
 import com.lemon1234.mapper.RoleMapper;
 import com.lemon1234.service.AdminService;
 
+/**
+ * 管理员
+ */
+@Transactional
 @Service("adminService")
 public class AdminServiceImpl implements AdminService {
 	

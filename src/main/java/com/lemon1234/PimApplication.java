@@ -13,7 +13,7 @@ public class PimApplication {
 	}
 	
 	// Elasticsearch 配置
-		// https://blog.csdn.net/chengyuqiang/article/details/102938266
+		// https://blog.csdn.net/qingyuan2014/article/details/112402818
 	
 	// springboot mail 配置
 		// https://blog.csdn.net/yimcarson/article/details/84936440

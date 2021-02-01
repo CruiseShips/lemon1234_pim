@@ -19,6 +19,7 @@ import com.lemon1234.entity.Admin;
 import com.lemon1234.entity.dict.Constants;
 import com.lemon1234.entity.dto.AdminLoginDTO;
 import com.lemon1234.service.AdminService;
+import com.lemon1234.sys.result.JwtResult;
 import com.lemon1234.sys.result.Result;
 import com.lemon1234.util.JwtUtils;
 
@@ -74,8 +75,22 @@ public class SysAdminController {
 	@ApiOperation(value = "更新Token", notes = "不需要任何权限", httpMethod = "GET")
 	@GetMapping("/updToken")
 	public Result updToken(HttpServletRequest request, String token) throws Exception {
-		
-		return Result.success();
+		JwtResult jwtResult = JwtUtils.validateJWT(token);
+		if(jwtResult.isSuccess()) {
+			String username = jwtResult.getClaims().getId();
+			Admin admin = (Admin)adminService.loadUserByUsername(username);
+			
+			String auth = JSON.toJSONString(admin.getAuthorities());
+			String newToken = JwtUtils.createJWT(admin.getUsername(), auth, JwtUtils.TIMEOUT);
+			return Result.success(newToken);
+		} else {
+			if(jwtResult.getErrCode() == Constants.JWT_ERRCODE_FAIL) {
+				return Result.error(Constants.JWT_ERRCODE_FAIL, "JWT 签名验证不通过");
+			} else if(jwtResult.getErrCode() == Constants.JWT_ERRCODE_EXPIRE) {
+				return Result.error(Constants.JWT_ERRCODE_FAIL, "JWT 签名验证过期");
+			}
+		}
+		return null;
 	}
 	
 	@ApiOperation(value = "退出", notes = "不需要任何权限", httpMethod = "GET")
