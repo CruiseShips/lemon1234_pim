@@ -23,6 +23,7 @@
 	DROP TABLE IF EXISTS `t_pim_accountlog`;
 	DROP TABLE IF EXISTS `t_pim_user`;
 	DROP TABLE IF EXISTS `t_pim_bank`;
+	DROP TABLE IF EXISTS `t_pim_account`;
 	
 ### 创建表
 
@@ -59,6 +60,7 @@
 		PRIMARY KEY (`id`) USING BTREE	
 	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 	
+	
 	-- accountlog 账号日志表
 	CREATE TABLE `t_pim_accountlog`  (
 		`id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -69,6 +71,7 @@
 		`fileId` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
 		PRIMARY KEY (`id`) USING BTREE
 	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+	
 	
 	-- user 用户表
 	CREATE TABLE `t_pim_user`  (
@@ -87,7 +90,8 @@
 		PRIMARY KEY (`id`) USING BTREE
 	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 	
-	-- 用户账号表
+	
+	-- 用户账号仓库表
 	CREATE TABLE `t_pim_bank`  (
 		`id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, 
 		`userId` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -98,10 +102,29 @@
 	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 	
 	
+	-- 用户账户表
+	CREATE TABLE `t_pim_account`  (
+		`id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+		`bankId` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`account` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`password` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`createDt` datetime(0) NULL DEFAULT NULL,
+		`lastUpdateDt` datetime(0) NULL DEFAULT NULL,
+		`viewNum` int(0) NULL DEFAULT NULL,
+		`connection` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		`fileId` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+		PRIMARY KEY (`id`) USING BTREE
+	) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+	
 ### 默认数据
 	INSERT INTO `t_pim_admin` VALUES ('a', 'admin', '$2a$10$EQhVS5pj.Z3GEizhzK4rjOlPV3Z4mbWEczzB5iSbsNf6E.ZVRTwxW', '2021-01-23 15:41:08', NULL, NULL, NULL, NULL, NULL, 'ON');
 	INSERT INTO `t_pim_admin_role` VALUES ('a', 'a', 'a');
 	INSERT INTO `t_pim_role` VALUES ('a', '管理员', 'ADMIN');
+	
+	INSERT INTO `t_pim_account` VALUES ('a', 'a', '123', '123', '123', '2021-02-02 20:59:37', NULL, NULL, NULL, NULL);
+	INSERT INTO `t_pim_account` VALUES ('b', 'a', '33', '2', '123', '2021-02-02 20:59:46', NULL, NULL, NULL, NULL);
+	INSERT INTO `t_pim_account` VALUES ('c', 'a', '213', '1', '221', '2021-02-02 20:59:54', NULL, NULL, NULL, NULL);
 	
 	
 README.md 编写规范：https://www.cnblogs.com/wj-1314/p/8547763.html
