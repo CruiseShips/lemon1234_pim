@@ -1,6 +1,8 @@
 package com.lemon1234.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import com.lemon1234.entity.dto.QueryBankListDTO;
 import com.lemon1234.entity.vo.QueryBankListVO;
 import com.lemon1234.mapper.BankMapper;
 import com.lemon1234.mapper.UserMapper;
+import com.lemon1234.service.AccountService;
 import com.lemon1234.service.BankService;
 
 @Transactional
@@ -22,21 +25,38 @@ public class BankServiceImpl implements BankService {
 	private BankMapper bankMapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private AccountService accountService;
 
 	@Override
-	public List<QueryBankListVO> queryBankList(QueryBankListDTO dto) throws Exception {
-		Page<User> userPage = new Page<User>(dto.getCurrentPage(), dto.getPageSize());
+	public Map<String, Object> queryBankList(QueryBankListDTO dto) throws Exception {
+		Page<User> userPage = new Page<User>((dto.getCurrentPage()-1)*dto.getPageSize(), dto.getPageSize());
 		
 		List<QueryBankListVO> voList = userMapper.getUserList(dto.getUsername(), userPage);
+		Integer count = userMapper.getUserCount(dto.getUsername());
 		
 		voList.stream().forEach(e -> {
 			List<QueryBankListVO.DTO> dtos = bankMapper.queryBankList(e.getUserId());
-			System.out.println(dtos.size());
+			e.setBankDTO(dtos);
+			e.setBankAll(dtos.size());
+			try {
+				e.setAccountAll(this.getAccountCount(dtos));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
 		});
-		
-		// 循环 list
-		
-		return voList;
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("data", voList);
+		resultMap.put("count", count);
+		return resultMap;
 	}
 	
+	private Integer getAccountCount(List<QueryBankListVO.DTO> dtos) throws Exception {
+		int count = 0;
+		for(QueryBankListVO.DTO dto: dtos) {
+			count += accountService.getAccountCountByBankId(dto.getId());
+		};
+		return count;
+	}
 }

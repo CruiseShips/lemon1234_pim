@@ -18,4 +18,7 @@ public interface UserMapper extends BaseMapper<User> {
 	
 	@SelectProvider(type = UserProvider.class, method = "getUserList")
 	List<QueryBankListVO> getUserList(@Param(value = "username")String username, Page<User> page) throws Exception;
+	
+	@SelectProvider(type = UserProvider.class, method = "getUserCount")
+	Integer getUserCount(@Param(value = "username")String username) throws Exception;
 }

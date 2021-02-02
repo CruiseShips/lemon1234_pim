@@ -15,4 +15,15 @@ public class UserProvider {
 		}
 		return sBuffer.toString();
 	}
+	
+	public String getUserCount(String username) throws Exception {
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append("SELECT ");
+		sBuffer.append("COUNT(1) ");
+		sBuffer.append("FROM t_pim_user ");
+		if(StringUtil.isNotEmpty(username)) {
+			sBuffer.append("WHERE name like '%" + username + "%'");
+		}
+		return sBuffer.toString();
+	}
 }

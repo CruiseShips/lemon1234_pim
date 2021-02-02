@@ -1,6 +1,6 @@
 package com.lemon1234.controller.admin;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lemon1234.entity.dto.QueryBankListDTO;
-import com.lemon1234.entity.vo.QueryBankListVO;
 import com.lemon1234.service.BankService;
 import com.lemon1234.sys.result.Result;
 
@@ -29,7 +28,7 @@ public class BankAdminController {
 	@ApiOperation(value = "查询所有用户所拥有的账号仓库", notes = "需要有管理员权限", httpMethod = "POST")
 	@PostMapping("/queryBankList")
 	public Result queryBankList(@RequestBody QueryBankListDTO dto) throws Exception {
-		List<QueryBankListVO> voList = bankService.queryBankList(dto);
+		Map<String, Object> voList = bankService.queryBankList(dto);
 		return Result.success(voList);
 	}
 }
