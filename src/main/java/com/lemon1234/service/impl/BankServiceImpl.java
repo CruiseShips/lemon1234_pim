@@ -29,6 +29,11 @@ public class BankServiceImpl implements BankService {
 		
 		List<QueryBankListVO> voList = userMapper.getUserList(dto.getUsername(), userPage);
 		
+		voList.stream().forEach(e -> {
+			List<QueryBankListVO.DTO> dtos = bankMapper.queryBankList(e.getUserId());
+			System.out.println(dtos.size());
+		});
+		
 		// 循环 list
 		
 		return voList;
