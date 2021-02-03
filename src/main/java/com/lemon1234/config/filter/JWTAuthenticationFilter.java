@@ -66,10 +66,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 				filterChain.doFilter(request, response);
 			} else {
 				if(jwtResult.getErrCode() == Constants.JWT_ERRCODE_FAIL) {
-					HttpUtil.print(response, Result.error(Constants.HTTP_401, "JWT 签名验证不通过"));
+					HttpUtil.print(response, Result.error(Constants.JWT_ERRCODE_FAIL, "JWT 签名验证不通过"));
 					return;
 				} else if(jwtResult.getErrCode() == Constants.JWT_ERRCODE_EXPIRE) {
-					HttpUtil.print(response, Result.error(Constants.HTTP_401, "JWT 签名验证过期"));
+					HttpUtil.print(response, Result.error(Constants.JWT_ERRCODE_EXPIRE, "JWT 签名验证过期"));
 					return;
 				}
 			}

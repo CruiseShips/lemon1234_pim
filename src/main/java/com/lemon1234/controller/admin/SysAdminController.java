@@ -46,17 +46,17 @@ public class SysAdminController {
 		
 		Admin admin = (Admin) adminService.loadUserByUsername(dto.getUsername());
 		if(admin == null) {
-			return Result.error(Constants.HTTP_401, "无法识别该用户");
+			return Result.error(Constants.HTTP_500, "无法识别该用户");
 		}
 		// 验证密码是否正确
         if(!bCryptPasswordEncoder.matches(dto.getPassword(), admin.getPassword())) {
         	// throw new BadCredentialsException("密码错误");
-        	return Result.error(Constants.HTTP_401, "密码不正确");
+        	return Result.error(Constants.HTTP_500, "密码不正确");
         }
         // 判断用户是否封禁
         if(!admin.isEnabled()) {
         	// throw new NonceExpiredException("用户已被封，请联系管理员");
-        	return Result.error(Constants.HTTP_401, "用户已被封，请联系管理员");
+        	return Result.error(Constants.HTTP_500, "用户已被封，请联系管理员");
         }
 		
         String auth = JSON.toJSONString(admin.getAuthorities());
