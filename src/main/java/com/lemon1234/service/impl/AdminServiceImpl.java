@@ -11,11 +11,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lemon1234.entity.Admin;
 import com.lemon1234.entity.Role;
+import com.lemon1234.entity.dto.GetAdminListDTO;
+import com.lemon1234.entity.vo.GetAdminListVO;
 import com.lemon1234.mapper.AdminMapper;
 import com.lemon1234.mapper.RoleMapper;
 import com.lemon1234.service.AdminService;
+import com.lemon1234.util.StringUtil;
 
 /**
  * 管理员
@@ -49,4 +54,15 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 
+	@Override
+	public Page<GetAdminListVO> getAdminList(GetAdminListDTO dto) throws Exception {
+		Page<Admin> userPage = new Page<Admin>((dto.getCurrentPage()-1)*dto.getPageSize(), dto.getPageSize());
+		
+		QueryWrapper<Admin> queryWrapper = new QueryWrapper<Admin>();
+		
+		
+		List<GetAdminListVO> listVOs = adminMapper.getAdminList(dto, userPage);
+		
+		return null;
+	}
 }

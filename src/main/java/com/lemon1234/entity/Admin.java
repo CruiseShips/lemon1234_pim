@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 系统管理员类
  */
-@ApiModel
+@ApiModel("系统管理员类")
 public class Admin implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
