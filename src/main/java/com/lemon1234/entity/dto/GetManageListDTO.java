@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("获取管理员集合DTO")
-public class GetAdminListDTO extends BaseDTO {
+public class GetManageListDTO extends BaseDTO {
 
 	@ApiModelProperty("账号")
 	private String username;

@@ -1,7 +1,9 @@
 package com.lemon1234.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,10 +17,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lemon1234.entity.Admin;
 import com.lemon1234.entity.Role;
-import com.lemon1234.entity.dto.GetAdminListDTO;
+import com.lemon1234.entity.dict.Constants;
+import com.lemon1234.entity.dto.AddManageDTO;
+import com.lemon1234.entity.dto.GetManageListDTO;
 import com.lemon1234.mapper.AdminMapper;
 import com.lemon1234.mapper.RoleMapper;
 import com.lemon1234.service.AdminService;
+import com.lemon1234.sys.exception.AppException;
+import com.lemon1234.util.RandomCodeUtil;
 import com.lemon1234.util.StringUtil;
 
 /**
@@ -32,6 +38,8 @@ public class AdminServiceImpl implements AdminService {
 	private AdminMapper adminMapper;
 	@Autowired
 	private RoleMapper roleMapper;
+	@Autowired
+	private RandomCodeUtil randomCodeUtil;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public Page<Admin> getAdminList(GetAdminListDTO dto) throws Exception {
+	public Page<Admin> getAdminList(GetManageListDTO dto) throws Exception {
 		Page<Admin> userPage = new Page<Admin>((dto.getCurrentPage()-1)*dto.getPageSize(), dto.getPageSize());
 		
 		QueryWrapper<Admin> queryWrapper = new QueryWrapper<Admin>();
@@ -75,5 +83,74 @@ public class AdminServiceImpl implements AdminService {
 		Page<Admin> adminPage = adminMapper.selectPage(userPage, queryWrapper);
 		
 		return adminPage;
+	}
+
+	@Override
+	public Integer addManage(AddManageDTO dto) throws Exception {
+		
+		if(StringUtil.isEmpty(dto.getUsername())) {
+			throw new AppException("请输入账号");
+		}
+		if(StringUtil.isEmpty(dto.getEmail())) {
+			throw new AppException("请输入邮箱号");
+		}
+		if(StringUtil.isEmpty(dto.getPhoneNum())) {
+			throw new AppException("请输入手机号");
+		}
+		if(StringUtil.isEmpty(dto.getName())) {
+			throw new AppException("请输入昵称");
+		}
+		
+		Admin admin = new Admin();
+		admin.setUsername(dto.getUsername());
+		admin.setEmail(dto.getEmail());
+		admin.setPhoneNum(dto.getPhoneNum());
+		admin.setName(dto.getName());
+		
+		// 默认未知
+		admin.setGender(Constants.ALIENS);
+		
+		Map<String, String> randomCode = randomCodeUtil.randomCode(15);
+		
+		// TODO 异步发动邮件去往邮箱
+		admin.setPassword(randomCode.get(Constants.ENCRYPTCODE));
+		// 默认头像
+		
+		admin.setCreateDt(new Date());
+		admin.setBan(Constants.ON);
+		
+		return adminMapper.insert(admin);
+	}
+
+	@Override
+	public Integer banAdmin(String id) throws Exception {
+		Admin admin = adminMapper.selectById(id);
+		if(admin == null) {
+			return -1;
+		}
+		
+		if(admin.getBan().equals(Constants.ON)) {
+			admin.setBan(Constants.OFF);
+		} else {
+			admin.setBan(Constants.ON);
+		}
+		
+		return adminMapper.updateById(admin);
+	}
+
+	@Override
+	public Integer resetPassword(String id) throws Exception {
+		Admin admin = adminMapper.selectById(id);
+		if(admin == null) {
+			return -1;
+		}
+		
+		Map<String, String> randomCode = randomCodeUtil.randomCode(15);
+		
+		admin.setPassword(randomCode.get(Constants.ENCRYPTCODE));
+		
+		// TODO 异步发动邮件去往邮箱
+		
+		return adminMapper.updateById(admin);
 	}
 }

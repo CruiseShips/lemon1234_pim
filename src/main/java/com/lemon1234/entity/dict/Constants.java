@@ -39,6 +39,14 @@ public class Constants {
 	// 请求方式 POST
 	public static final String POST = "POST";
 	
+	// 性别
+	// 男
+	public static final Integer MAN = 1;
+	// 女
+	public static final Integer WOMAN = 2;
+	// 未知
+	public static final Integer ALIENS = 0;
+	
 	public static void main(String[] args) {
 		System.out.println("encryptCode".toUpperCase());
 	}
