@@ -16,7 +16,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lemon1234.entity.Admin;
 import com.lemon1234.entity.Role;
 import com.lemon1234.entity.dto.GetAdminListDTO;
-import com.lemon1234.entity.vo.GetAdminListVO;
 import com.lemon1234.mapper.AdminMapper;
 import com.lemon1234.mapper.RoleMapper;
 import com.lemon1234.service.AdminService;
@@ -55,14 +54,26 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public Page<GetAdminListVO> getAdminList(GetAdminListDTO dto) throws Exception {
+	public Page<Admin> getAdminList(GetAdminListDTO dto) throws Exception {
 		Page<Admin> userPage = new Page<Admin>((dto.getCurrentPage()-1)*dto.getPageSize(), dto.getPageSize());
 		
 		QueryWrapper<Admin> queryWrapper = new QueryWrapper<Admin>();
+		queryWrapper.select("id", "username", "email", "phoneNum", "gender", "name", "img", "ban");
+		if(StringUtil.isNotEmpty(dto.getName())) {
+			queryWrapper.like("name", dto.getName());
+		}
+		if(StringUtil.isNotEmpty(dto.getName())) {
+			queryWrapper.eq("username", dto.getUsername());
+		}
+		if(StringUtil.isNotEmpty(dto.getName())) {
+			queryWrapper.eq("email", dto.getEmail());
+		}
+		if(StringUtil.isNotEmpty(dto.getName())) {
+			queryWrapper.eq("phoneNum", dto.getPhoneNum());
+		}
 		
+		Page<Admin> adminPage = adminMapper.selectPage(userPage, queryWrapper);
 		
-		List<GetAdminListVO> listVOs = adminMapper.getAdminList(dto, userPage);
-		
-		return null;
+		return adminPage;
 	}
 }

@@ -8,27 +8,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lemon1234.entity.Admin;
 import com.lemon1234.entity.dto.GetAdminListDTO;
-import com.lemon1234.entity.vo.GetAdminListVO;
 import com.lemon1234.service.AdminService;
 import com.lemon1234.sys.result.Result;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = "{管理端-管理员管理端}")
+@Api(tags = "{管理端-管理员管理模块}")
 @RestController
-@RequestMapping("/admin/admin")
-public class AdminAdminController {
+@RequestMapping("/admin/manage")
+public class ManageAdminController {
 	
 	@Autowired
 	private AdminService adminService;
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@ApiOperation(value = "查询所有系统管理员", notes = "查看可以都去查看，但是管理员不能查看到系统最高管理员", httpMethod = "POST")
-	@PostMapping("/getAdminList")
-	public Result getAdminList(@RequestBody GetAdminListDTO dto) throws Exception {
-		Page<GetAdminListVO> adminPage = adminService.getAdminList(dto);
+	@PostMapping("/getManageList")
+	public Result getManageList(@RequestBody GetAdminListDTO dto) throws Exception {
+		Page<Admin> adminPage = adminService.getAdminList(dto);
 		return Result.success(adminPage);
 	}
 	
