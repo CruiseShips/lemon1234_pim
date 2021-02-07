@@ -16,6 +16,8 @@ public class Constants {
 	public static final Integer HTTP_500 = 500;
 	// 权限不够
 	public static final Integer HTTP_401 = 401;
+	// 数据错误
+	public static final Integer HTTP_201 = 201;
 	
 	// Jwt token 状态返回
 	public static final Integer JWT_ERRCODE_NULL = 4000;

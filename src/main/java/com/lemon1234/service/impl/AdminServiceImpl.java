@@ -101,21 +101,31 @@ public class AdminServiceImpl implements AdminService {
 			throw new AppException("请输入昵称");
 		}
 		
+		// 需要查找 手机号和邮箱不可以重复
+		QueryWrapper<Admin> queryAdmin = new QueryWrapper<Admin>();
+		queryAdmin.eq("username", dto.getUsername());
+		if(adminMapper.selectCount(queryAdmin) > 0) {
+			throw new AppException("账号重复");
+		}
+		QueryWrapper<Admin> queryWrapper = new QueryWrapper<Admin>();
+		queryWrapper.eq("email", dto.getEmail()).or().eq("phoneNum", dto.getPhoneNum());
+		Integer count = adminMapper.selectCount(queryWrapper);
+		if(count > 0) {
+			throw new AppException("邮箱或手机号重复");
+		}
+		
 		Admin admin = new Admin();
 		admin.setUsername(dto.getUsername());
 		admin.setEmail(dto.getEmail());
 		admin.setPhoneNum(dto.getPhoneNum());
 		admin.setName(dto.getName());
-		
-		// 默认未知
-		admin.setGender(Constants.ALIENS);
-		
+		admin.setGender(dto.getGender());
+		// 生成随机密码
 		Map<String, String> randomCode = randomCodeUtil.randomCode(15);
-		
 		// TODO 异步发动邮件去往邮箱
 		admin.setPassword(randomCode.get(Constants.ENCRYPTCODE));
-		// 默认头像
-		
+		// TODO 默认头像
+		admin.setImg("");
 		admin.setCreateDt(new Date());
 		admin.setBan(Constants.ON);
 		

@@ -41,7 +41,7 @@ public class ManageAdminController {
 	public Result addManage(@RequestBody AddManageDTO dto) throws Exception {
 		Integer operand = adminService.addManage(dto);
 		if(operand > 0) {
-			return Result.success("添加成功");
+			return Result.success();
 		}
 		return Result.error("添加失败");
 	}
@@ -54,7 +54,7 @@ public class ManageAdminController {
 		if(operand < 0) {
 			return Result.error("无法找到该用户");
 		} else {
-			return Result.success("修改成功");
+			return Result.success();
 		}
 	}
 	
