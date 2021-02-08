@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.lemon1234.entity.dict.Constants;
 import com.lemon1234.util.StringUtil;
 
@@ -51,6 +52,8 @@ public class Admin implements UserDetails {
 	@ApiModelProperty("封禁")
 	private String ban;
 	
+	// 数据库没有这个字段，需要设置一下，不然 BaseMapper 会去查找
+	@TableField(exist = false)
 	@ApiModelProperty("用户权限")
 	private Collection<GrantedAuthority> authorities;
 

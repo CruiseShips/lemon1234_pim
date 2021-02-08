@@ -49,6 +49,10 @@ public class Constants {
 	// 未知
 	public static final Integer ALIENS = 0;
 	
+	// 系统文件类型（对应文件上传、查看、下载等）
+	// 图片
+	public static final String IMAGE = "img";
+	
 	public static void main(String[] args) {
 		System.out.println("encryptCode".toUpperCase());
 	}

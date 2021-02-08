@@ -51,10 +51,10 @@ public class ManageAdminController {
 	@GetMapping("/banAdmin")
 	public Result banAdmin(@RequestParam(value = "id", required = true) String id) throws Exception {
 		Integer operand = adminService.banAdmin(id);
-		if(operand < 0) {
-			return Result.error("无法找到该用户");
-		} else {
+		if(operand > 0) {
 			return Result.success();
+		} else {
+			return Result.error("修改失败");
 		}
 	}
 	
@@ -63,10 +63,10 @@ public class ManageAdminController {
 	@GetMapping("/resetPassword")
 	public Result resetPassword(@RequestParam(value = "id", required = true) String id) throws Exception {
 		Integer operand = adminService.resetPassword(id);
-		if(operand < 0) {
-			return Result.error("无法找到该用户");
-		} else {
+		if(operand > 0) {
 			return Result.success();
+		} else {
+			return Result.error("重置失败");
 		}
 	}
 }

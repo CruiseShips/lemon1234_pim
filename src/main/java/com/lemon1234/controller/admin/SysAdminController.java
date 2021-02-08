@@ -1,5 +1,8 @@
 package com.lemon1234.controller.admin;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -69,7 +72,12 @@ public class SysAdminController {
 		UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(admin, null, admin.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(upat);
 		
-		return Result.success(token);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("name", admin.getName());
+		resultMap.put("img", admin.getImg());
+		resultMap.put("token", token);
+		
+		return Result.success(resultMap);
 	}
 	
 	@ApiOperation(value = "更新Token", notes = "不需要任何权限", httpMethod = "GET")

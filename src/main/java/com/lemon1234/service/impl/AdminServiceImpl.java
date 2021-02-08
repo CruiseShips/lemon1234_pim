@@ -70,13 +70,13 @@ public class AdminServiceImpl implements AdminService {
 		if(StringUtil.isNotEmpty(dto.getName())) {
 			queryWrapper.like("name", dto.getName());
 		}
-		if(StringUtil.isNotEmpty(dto.getName())) {
+		if(StringUtil.isNotEmpty(dto.getUsername())) {
 			queryWrapper.eq("username", dto.getUsername());
 		}
-		if(StringUtil.isNotEmpty(dto.getName())) {
+		if(StringUtil.isNotEmpty(dto.getEmail())) {
 			queryWrapper.eq("email", dto.getEmail());
 		}
-		if(StringUtil.isNotEmpty(dto.getName())) {
+		if(StringUtil.isNotEmpty(dto.getPhoneNum())) {
 			queryWrapper.eq("phoneNum", dto.getPhoneNum());
 		}
 		
@@ -136,7 +136,7 @@ public class AdminServiceImpl implements AdminService {
 	public Integer banAdmin(String id) throws Exception {
 		Admin admin = adminMapper.selectById(id);
 		if(admin == null) {
-			return -1;
+			throw new AppException("无法找到该用户");
 		}
 		
 		if(admin.getBan().equals(Constants.ON)) {
@@ -152,7 +152,7 @@ public class AdminServiceImpl implements AdminService {
 	public Integer resetPassword(String id) throws Exception {
 		Admin admin = adminMapper.selectById(id);
 		if(admin == null) {
-			return -1;
+			throw new AppException("无法找到该用户");
 		}
 		
 		Map<String, String> randomCode = randomCodeUtil.randomCode(15);

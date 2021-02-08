@@ -57,3 +57,7 @@ mybatis-plus:
   configuration: 
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: false
+    
+
+filePath: D:/apache-tomcat-8.25/file/
+    

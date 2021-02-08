@@ -67,13 +67,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			"/swagger-ui.html",
     			"/webjars/**",
     			"/*.html",
+    			"/file/**",
     			"/favicon.ico",
     			"/admin/login",
     			"/admin/logout",
-    			"/admin/updToken"
+    			"/admin/updToken",
     			};
         // 可以直接访问的静态数据
-        web.ignoring().antMatchers(matchers);
+    	web.ignoring().antMatchers(matchers);
     }
     
     
