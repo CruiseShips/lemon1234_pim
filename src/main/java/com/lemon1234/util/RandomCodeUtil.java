@@ -38,7 +38,7 @@ public class RandomCodeUtil {
 	public Map<String, String> randomCode(int count) throws Exception {
 		
 		if(count < 10 || count > 20) {
-			count = 10;
+			count = 18;
 		}
 		
 		StringBuffer sBuffer = new StringBuffer();

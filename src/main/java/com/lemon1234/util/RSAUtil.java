@@ -76,11 +76,21 @@ public class RSAUtil {
 	
 	public static void main(String[] args) throws Exception {
 		//加密字符串
-		String message = "lemon1234+.--8";
+		// 长度 172
+		// LTOadF/Lh1TLFw9SPsAfCT/qazA9KGQ3xhenIt+IRS9sp8KgL5oYLAw6UIFqKrkUt/kfy+OBA3F55s98ybQhd81vjOABLuF+qcC2suLyzrV8SM7KgexCzql011E8bOTZ0AzfA6AwLF7kWYmvOa1rg2OIHNr47pg0NPF79j/YYfU=
+		String message = "lemon1234+.--8123";
 		Map<String, String> key = RSAUtil.getKey();
 		String megmi = RSAUtil.encryption(message, key.get(Constants.RSA_PUBLIC_KEY));
 		System.out.println(megmi);
+		System.out.println(megmi.length());
+		System.out.println(megmi.substring(0, 25));
 		System.out.println(RSAUtil.decrypt(megmi, key.get(Constants.RSA_PRIVATE_KEY)));
+		
+		// 216
+		// 848
+		System.out.println(key.get(Constants.RSA_PUBLIC_KEY).length());
+		System.out.println(key.get(Constants.RSA_PRIVATE_KEY).length());
+		
 	}
 	
 }
